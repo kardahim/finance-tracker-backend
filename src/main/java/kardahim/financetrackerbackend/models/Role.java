@@ -8,24 +8,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class User {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonView
-    private String firstName;
-
-    @JsonView
-    private String lastName;
-
-    @JsonView
-    private String email;
-
-    @JsonView
-    private String password;
-
-    @JsonView
-    @ManyToOne
-    private Role role;
+    private String name;
 }
