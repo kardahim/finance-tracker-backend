@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "income_sources")
+@Table(name = "income_sources", uniqueConstraints = {@UniqueConstraint(columnNames = "name")})
 public class IncomeSource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
