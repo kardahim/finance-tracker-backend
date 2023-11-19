@@ -1,16 +1,16 @@
 package kardahim.financetrackerbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "expense_sources")
 public class ExpenseSource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
