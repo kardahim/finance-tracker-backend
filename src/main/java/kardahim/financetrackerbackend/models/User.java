@@ -1,8 +1,10 @@
 package kardahim.financetrackerbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,20 +22,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonView
+    @Column(nullable = false)
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
 
-    @JsonView
+    @Column(nullable = false)
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
 
-    @JsonView
-    @Email
+    @Column(nullable = false)
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email is not correct")
     private String email;
 
-    @JsonView
+    @Column(nullable = false)
+    @NotBlank(message = "Password is mandatory")
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
+            message = "Password must contain at least one number, one lowercase letter, one uppercase letter, one special character, and be at least 8 characters long"
+    )
     private String password;
 
-    @JsonView
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();

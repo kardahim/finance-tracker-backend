@@ -1,7 +1,7 @@
 package kardahim.financetrackerbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,20 +16,21 @@ public class Income {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonView
+    @Column(nullable = false)
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @JsonView
+    @Column(nullable = false)
+    @NotBlank(message = "Amount is mandatory")
     private double amount;
 
-    @JsonView
+    @Column(nullable = false)
+    @NotBlank(message = "Date is mandatory")
     private Date date;
 
-    @JsonView
     @ManyToOne
     private IncomeSource incomeSource;
 
-    @JsonView
     @ManyToOne
     private User user;
 }
