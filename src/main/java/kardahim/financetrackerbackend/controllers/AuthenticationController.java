@@ -1,11 +1,9 @@
 package kardahim.financetrackerbackend.controllers;
 
 import jakarta.validation.ConstraintViolationException;
-import kardahim.financetrackerbackend.dto.JWTAuthenticationResponse;
 import kardahim.financetrackerbackend.dto.RefreshTokenRequest;
 import kardahim.financetrackerbackend.dto.SignInRequest;
 import kardahim.financetrackerbackend.dto.SignUpRequest;
-import kardahim.financetrackerbackend.models.User;
 import kardahim.financetrackerbackend.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
