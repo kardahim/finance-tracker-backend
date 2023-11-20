@@ -41,10 +41,6 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @NotBlank(message = "Password is mandatory")
-    @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
-            message = "Password must contain at least one number, one lowercase letter, one uppercase letter, one special character, and be at least 8 characters long"
-    )
     private String password;
 
 

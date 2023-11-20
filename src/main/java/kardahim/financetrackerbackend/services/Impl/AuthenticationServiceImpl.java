@@ -1,5 +1,7 @@
 package kardahim.financetrackerbackend.services.Impl;
 
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import kardahim.financetrackerbackend.dto.JWTAuthenticationResponse;
 import kardahim.financetrackerbackend.dto.RefreshTokenRequest;
 import kardahim.financetrackerbackend.dto.SignInRequest;
@@ -20,14 +22,18 @@ import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
 
-    public User signup(SignUpRequest signUpRequest) {
+    public User signup(SignUpRequest signUpRequest) throws ConstraintViolationException {
         User user = new User();
+
+        if (!signUpRequest.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$")) {
+            throw new ConstraintViolationException("Invalid password format", null);
+        }
 
         user.setEmail(signUpRequest.getEmail());
         user.setFirstName(signUpRequest.getFirstName());
@@ -35,7 +41,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        // TODO: add validation (check that userEmail is in db, check password is in pattern)
         return userRepository.save(user);
     }
 

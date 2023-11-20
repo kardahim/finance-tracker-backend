@@ -1,5 +1,6 @@
 package kardahim.financetrackerbackend.controllers;
 
+import jakarta.validation.ConstraintViolationException;
 import kardahim.financetrackerbackend.dto.JWTAuthenticationResponse;
 import kardahim.financetrackerbackend.dto.RefreshTokenRequest;
 import kardahim.financetrackerbackend.dto.SignInRequest;
@@ -8,10 +9,7 @@ import kardahim.financetrackerbackend.models.User;
 import kardahim.financetrackerbackend.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -20,17 +18,31 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@RequestBody SignUpRequest signUpRequest) {
-        return ResponseEntity.ok(authenticationService.signup(signUpRequest));
+    public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest) {
+        try {
+            return ResponseEntity.ok(authenticationService.signup(signUpRequest));
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<JWTAuthenticationResponse> signin(@RequestBody SignInRequest signInRequest) {
-        return ResponseEntity.ok(authenticationService.signin(signInRequest));
+    public ResponseEntity<?> signin(@RequestBody SignInRequest signInRequest) {
+        try {
+            return ResponseEntity.ok(authenticationService.signin(signInRequest));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JWTAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
+    public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        try {
+            return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
