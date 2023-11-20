@@ -2,6 +2,7 @@ package kardahim.financetrackerbackend.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,11 @@ public class Expense {
     private String name;
 
     @Column(nullable = false)
-    @NotBlank(message = "Amount is mandatory")
+    @NotNull(message = "Amount is mandatory")
     private double amount;
 
     @Column(nullable = false)
-    @NotBlank(message = "Date is mandatory")
+    @NotNull(message = "Date is mandatory")
     private Date date;
 
     @ManyToOne

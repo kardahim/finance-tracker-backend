@@ -1,22 +1,25 @@
 package kardahim.financetrackerbackend.controllers;
 
 import kardahim.financetrackerbackend.dto.IncomeExpenseRequest;
-import kardahim.financetrackerbackend.services.ExpenseService;
+import kardahim.financetrackerbackend.models.Income;
+import kardahim.financetrackerbackend.services.IncomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/expense")
+@RequestMapping("/api/v1/income")
 @RequiredArgsConstructor
-public class ExpenseController {
-    private final ExpenseService expenseService;
+public class IncomeController {
+    private final IncomeService incomeService;
 
     @PostMapping("")
     public ResponseEntity<?> add(@RequestBody IncomeExpenseRequest incomeExpenseRequest) {
         try {
-            expenseService.addExpense(incomeExpenseRequest);
-            return ResponseEntity.ok("Added new Expense");
+            incomeService.addIncome(incomeExpenseRequest);
+            return ResponseEntity.ok("Added new Income");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -25,8 +28,8 @@ public class ExpenseController {
     @PutMapping("/{id}")
     public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody IncomeExpenseRequest incomeExpenseRequest) {
         try {
-            expenseService.edit(id, incomeExpenseRequest);
-            return ResponseEntity.ok("Edited expense");
+            incomeService.edit(id, incomeExpenseRequest);
+            return ResponseEntity.ok("Edited income");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -35,8 +38,8 @@ public class ExpenseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            expenseService.delete(id);
-            return ResponseEntity.ok("Deleted expense");
+            incomeService.delete(id);
+            return ResponseEntity.ok("Deleted income");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -45,7 +48,7 @@ public class ExpenseController {
     @GetMapping("user/{id}")
     public ResponseEntity<?> getAllByUserId(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(expenseService.getAllByUserId(id));
+            return ResponseEntity.ok(incomeService.getAllByUserId(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
