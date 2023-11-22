@@ -56,6 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
         jwtAuthenticationResponse.setToken(jwt);
         jwtAuthenticationResponse.setRefreshToken(refreshToken);
+        jwtAuthenticationResponse.setUser(user);
         return jwtAuthenticationResponse;
     }
 
@@ -69,6 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
             jwtAuthenticationResponse.setToken(jwt);
             jwtAuthenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
+            jwtAuthenticationResponse.setUser(user);
             return jwtAuthenticationResponse;
         }
         return null;
