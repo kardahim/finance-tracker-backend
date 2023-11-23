@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.List;
 
 @SpringBootApplication
 public class FinanceTrackerBackendApplication implements CommandLineRunner {
@@ -19,8 +20,9 @@ public class FinanceTrackerBackendApplication implements CommandLineRunner {
     }
 
     public void run(String... args) {
-        User adminAccount = userRepository.findByRole(Role.ADMIN);
-        if(null == adminAccount)  {
+
+        List<User> adminAccounts = userRepository.findAllByRole(Role.ADMIN);
+        if(adminAccounts.isEmpty())  {
             User user = new User();
 
             user.setEmail("admin@gmail.com");
