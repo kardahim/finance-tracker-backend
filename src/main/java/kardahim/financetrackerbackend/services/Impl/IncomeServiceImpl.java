@@ -52,4 +52,9 @@ public class IncomeServiceImpl implements IncomeService {
     public List<Income> getAllByUserId(Long id) {
         return incomeRepository.findAllByUserId(id);
     }
+
+    @Override
+    public Income getById(Long id) {
+        return incomeRepository.findById(id).orElseThrow();
+    }
 }

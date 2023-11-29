@@ -52,4 +52,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<Expense> getAllByUserId(Long id) {
         return expenseRepository.findAllByUserId(id);
     }
+
+    @Override
+    public Expense getById(Long id) {
+        return expenseRepository.findById(id).orElseThrow();
+    }
 }

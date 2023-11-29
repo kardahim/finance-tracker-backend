@@ -10,4 +10,5 @@ public interface ExpenseService {
     void delete(Long id);
     void edit(Long id, IncomeExpenseRequest incomeExpenseRequest);
     List<Expense> getAllByUserId(Long id);
+    Expense getById(Long id);
 }
