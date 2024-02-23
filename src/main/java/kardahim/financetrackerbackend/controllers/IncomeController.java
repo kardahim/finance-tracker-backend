@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/income")
@@ -19,7 +20,7 @@ public class IncomeController {
     public ResponseEntity<?> add(@RequestBody IncomeExpenseRequest incomeExpenseRequest) {
         try {
             incomeService.addIncome(incomeExpenseRequest);
-            return ResponseEntity.ok("Added new Income");
+            return ResponseEntity.ok().body(Map.of("message", "Added new Income"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -29,7 +30,7 @@ public class IncomeController {
     public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody IncomeExpenseRequest incomeExpenseRequest) {
         try {
             incomeService.edit(id, incomeExpenseRequest);
-            return ResponseEntity.ok("Edited income");
+            return ResponseEntity.ok().body(Map.of("message", "Income edited"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -39,7 +40,8 @@ public class IncomeController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             incomeService.delete(id);
-            return ResponseEntity.ok("Deleted income");
+//            return ResponseEntity.ok("Deleted income");
+            return ResponseEntity.ok().body(Map.of("message", "Deleted income"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

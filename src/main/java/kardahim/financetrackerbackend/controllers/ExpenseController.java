@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/expense")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class ExpenseController {
     public ResponseEntity<?> add(@RequestBody IncomeExpenseRequest incomeExpenseRequest) {
         try {
             expenseService.addExpense(incomeExpenseRequest);
-            return ResponseEntity.ok("Added new Expense");
+            return ResponseEntity.ok().body(Map.of("message", "Added new Expense"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -26,7 +28,7 @@ public class ExpenseController {
     public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody IncomeExpenseRequest incomeExpenseRequest) {
         try {
             expenseService.edit(id, incomeExpenseRequest);
-            return ResponseEntity.ok("Edited expense");
+            return ResponseEntity.ok().body(Map.of("message", "Expense edited"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
