@@ -34,6 +34,15 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        http.cors(cors -> cors
+                .configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+        );
+
+        http.sessionManagement(sessionManagement -> sessionManagement
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeRequests(request -> request
@@ -44,6 +53,19 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
                 );
+
+        http.cors(cors -> cors
+                .configurationSource(request -> {
+                    CorsConfiguration corsConfiguration = new CorsConfiguration();
+                    corsConfiguration.addAllowedOrigin("http://localhost:5173");
+                    corsConfiguration.addAllowedOrigin("http://localhost:5174");
+                    corsConfiguration.addAllowedOrigin("http://localhost:5175");
+                    corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
+                    corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
+                    return corsConfiguration;
+                })
+        );
+
         return http.build();
     }
 
@@ -65,20 +87,20 @@ public class SecurityConfiguration {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    @SuppressWarnings("unused")
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")
-//                        .allowedMethods(CorsConfiguration.ALL)
-                        .allowedMethods("*")
-//                        .allowedOriginPatterns(CorsConfiguration.ALL);
-                        .allowedHeaders(CorsConfiguration.ALL);
-            }
-        };
-    }
+//    @Bean
+//    @SuppressWarnings("unused")
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**")
+//                        .allowedOrigins("http://localhost:5173","http://localhost:5174","http://localhost:5175")
+////                        .allowedMethods(CorsConfiguration.ALL)
+//                        .allowedMethods("*")
+////                        .allowedOriginPatterns(CorsConfiguration.ALL);
+//                        .allowedHeaders(CorsConfiguration.ALL);
+//            }
+//        };
+//    }
 
 }
